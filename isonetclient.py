@@ -30,3 +30,12 @@ for res in socket.getaddrinfo(serverIP,serverPort,socket.AF_UNSPEC,socket.SOCK_S
 if s is None:
     print("Could not connect")
     sys.exit(1)
+    
+for req in range(0,numberEcho):
+    iso = ISO8583()
+    iso.SetMTI('0800')
+    iso.setBit(7,'0213141501')
+    iso.setBit(11,'123456')
+    iso.setBit(12,'141501')
+    iso.setBit(13,'0213')
+    iso.setBit(70,'301')
