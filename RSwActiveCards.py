@@ -1,0 +1,5 @@
+print(" ")
+print("Extract number of cards active after specified date")
+print("***************************************************")
+print(" ")
+expire_after = input("Enter date in 'YYMM' format: ")
