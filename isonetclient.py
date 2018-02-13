@@ -39,3 +39,52 @@ for req in range(0,numberEcho):
     iso.setBit(12,'141501')
     iso.setBit(13,'0213')
     iso.setBit(70,'301')
+    if bigEndian:
+        try:
+            message=iso.getNetworkISO()
+            s.send(message)
+            print('Sending ... %s' % message)
+            ans=s.recv(2048)
+            print("\nInput ASCII |%s|" % ans)
+            isoAns = ISO8583()
+            isoAns.getNetworkISO(ans)
+            v1=isoAns.getBitsAndValues()
+            for v in v1:
+                print("Bit %s of type %s with value = %s" % (v['bit'],v['type'],v['value']))
+                
+            if isoAns.getMTI()=='0810':
+                print("\nThat's great. Server understood message")
+            else:
+                print("\nError in parsing message")
+            
+        except InvalidISO8583,ii:
+            print ii
+            break
+            
+        time.sleep(timeBetweenEcho)
+    else:
+        try:
+            message = iso.getNetworkISO(False)
+            s.send(message)
+            print('Sending ... %s' % message)
+            ans = s.recv(2048)
+            print("\nInput ASCII |%s|" % ans)
+            isoAns = ISO8583()
+            isoAns.setNetworkISO(ans,False)
+            v1 = isoAns.getBitsAndValues()
+            for v in v1:
+                print("Bit %s of type %s with value = %s" % (v['bit'],v['type'],v['value'])))
+            
+            if isoAns.getMTI=='0810':
+                print("\nManaged to parse correctly")
+            else:
+                print("error parsing message")
+                
+        except InvalidISO8583, ii:
+            print ii
+            break
+            
+        time.sleep(timeBetweenEcho)
+        
+print("Closing")
+s.close()
