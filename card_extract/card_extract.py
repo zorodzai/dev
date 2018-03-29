@@ -1,10 +1,14 @@
+#Utility to parse Postcard card-accounts extract files to create output file of active cards
+
 import pandas as pd
 cardspath = r'C:\Zoro\dev\python\card_extract\uob\cards.txt'
 cardaccountspath = r'C:\Zoro\dev\python\card_extract\uob\cardaccounts.txt'
 output=r'C:\Zoro\dev\python\card_extract\uob\output.txt'
 
+#only cards with expiry date >= 'period' to be returned
 period = int(input("Enter date in YYMM of last expiry: "))
 
+#clean extract files of apostrophes around data (Standard 3 format)
 def cardcleaner():
 	try:
 		with open(cardspath,'r') as file:
@@ -29,8 +33,9 @@ def cardaccountscleaner():
 				
 cardcleaner()
 cardaccountscleaner()
-
 print("\nextracting\n")
+
+#use pandas to filter data and merge into one file
 df = pd.read_csv(cardspath,usecols=[0,4,6,7],names=['a','b','c','d'])
 hold=['41.0','43.0','1.0']
 df0=df[df.b >= 1]
