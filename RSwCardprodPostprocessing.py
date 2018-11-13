@@ -29,13 +29,14 @@ def track1writer():
 				headers=next(reader,None)
 				if headers:
 					writer.writerow(headers)
-			
+				
 				print("formatting track 1 data...")
 				for row in reader:
 					new_value='%B'+row[0]+'^'+row[10].upper()+'/'+row[8].upper()+'^'+row[4]+'2211'+row[18]+'00'+row[15]+'000000?'
 					row.append(new_value)
 					writer.writerow(row)
 				print("formatting complete")
+				writer.writerow(last_row)
 	except Exception as e:
 		print(e)
 
